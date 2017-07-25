@@ -6,9 +6,9 @@
   "scripts": {
     "start": "electron .",
     "build": "electron-rebuild -f"
-  },,
+  },
   "devDependencies": {
-    "electron-builder": "^13.9.0",
+    "electron-builder": "^13.9.0"
   },
   "dependencies": {
     "body-parser": "~1.17.1",

@@ -1,0 +1,53 @@
+<!--
+# Copyright 2017 . All Rights Reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>
+    <label for='tag'>Input field: </label>
+    <input id='tag' value=''/>
+</p>
+<p>
+    <label for="text-area">Text Area:
+        <textarea type='text' id='text-area'></textarea>
+    </label>
+</p>
+<hr>
+
+<p>Open Window:</p>
+<button id='open-win'>open window</button>
+
+<button>
+    <a href="win.html" target="_blank" style="text-decoration: none">_blank</a>
+</button>
+
+
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        window.setupGlobal();
+    });
+
+    let openWinButton = document.getElementById('open-win');
+    openWinButton.addEventListener('click', function () {
+        let win = window.open('win.html?x=100&y=100', 'test-window', 'height=800,width=400');
+    });
+</script>
+</html>

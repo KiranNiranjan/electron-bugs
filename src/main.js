@@ -33,8 +33,7 @@ const createWindow = () => {
         }
     });
 
-    mainWindow.loadURL(`file://${__dirname}/index.html`);
-    mainWindow.webContents.openDevTools();
+    mainWindow.loadURL(`https://google.com`);
 
     mainWindow.on('closed', () => {
         mainWindow = null;

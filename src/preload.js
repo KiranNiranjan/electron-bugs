@@ -13,20 +13,11 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  **/
+const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = require('electron-spellchecker');
+const spellchecker = new SpellCheckHandler();
+spellchecker.attachToInput();
 
-window.setupGlobal = () => {
-    console.log('Setup Global function');
-    const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = require('electron-spellchecker');
-    const spellchecker = new SpellCheckHandler();
-    spellchecker.attachToInput();
-
-    const contextMenuBuilder = new ContextMenuBuilder(spellchecker);
-    const contextMenuListener = new ContextMenuListener((info) => {
-        contextMenuBuilder.showPopupMenu(info);
-    }, null, null);
-
-    window.injectedGlobal = {
-        pid: process.pid,
-        spellchecker
-    };
-};
+const contextMenuBuilder = new ContextMenuBuilder(spellchecker);
+const contextMenuListener = new ContextMenuListener((info) => {
+    contextMenuBuilder.showPopupMenu(info);
+}, null, null);

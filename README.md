@@ -1,14 +1,15 @@
-# WebContents Preload bug
+This is happening frequently in `electron 1.7.5`. Opening and closing the DevTool multiple times.
 
-### **`Uncaught Error: Module did not self-register.`**
+- Electron ver: 1.7.5
+- Operating sys: macOS Sierra
 
-This behaviour is also happening in `webContents` using the new feature `nativeWindowOpen` and this happens every time when you open a new window using `window.open` or `_blank`
+## Steps to reproduce:
 
-## How to reproduce
+- [Sample Repo](https://github.com/KiranNiranjan/electron-preload-bug/tree/electron-6359)
+- `npm run start`
+- Open DevTools & close it
+- Reopen DevTools & close it
+- Electron crashes
 
-```bash
-git clone https://github.com/KiranNiranjan/electron-preload-bug.git
-npm i
-npm run build
-npm run start
-```
+**Removing this line stops the app from crashing**
+`const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = require('electron-spellchecker');`

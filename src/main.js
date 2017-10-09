@@ -14,8 +14,11 @@
  limitations under the License.
  **/
 'use strict';
+
+const electron = require('electron');
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
+const modal = require('./modal');
 
 let mainWindow;
 
@@ -35,6 +38,7 @@ const createWindow = () => {
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     mainWindow.webContents.openDevTools();
+    mainWindow.winName = 'main';
 
     mainWindow.on('closed', () => {
         mainWindow = null;
@@ -54,4 +58,8 @@ app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
     app.quit();
+});
+
+electron.ipcMain.on('openModal', (event, windowName) => {
+    modal.openModalWindow(windowName);
 });

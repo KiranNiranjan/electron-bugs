@@ -13,20 +13,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
  **/
+const { ipcRenderer, remote } = require('electron');
 
-window.setupGlobal = () => {
-    console.log('Setup Global function');
-    const { SpellCheckHandler, ContextMenuListener, ContextMenuBuilder } = require('electron-spellchecker');
-    const spellchecker = new SpellCheckHandler();
-    spellchecker.attachToInput();
+window.testAPI =  {
 
-    const contextMenuBuilder = new ContextMenuBuilder(spellchecker);
-    const contextMenuListener = new ContextMenuListener((info) => {
-        contextMenuBuilder.showPopupMenu(info);
-    }, null, null);
-
-    window.injectedGlobal = {
-        pid: process.pid,
-        spellchecker
-    };
+    openModal: function () {
+        let windowName = remote.getCurrentWindow().winName;
+        console.log(windowName);
+        ipcRenderer.send('openModal', windowName)
+    }
 };

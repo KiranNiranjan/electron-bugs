@@ -37,6 +37,9 @@ modalWindow.y = Math.round(centerY - (windowHeight / 2.0));
 ```bash
 git clone https://github.com/KiranNiranjan/electron-preload-bug.git
 npm i
-npm run build
 npm run start
+Connect another display to your machine
+Drag and drop the electron window onto secondary display
+Now press modal button
+The modal appears in primary display instead of the secondary display
 ```

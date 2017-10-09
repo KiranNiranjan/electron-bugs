@@ -15,6 +15,7 @@
  **/
 const electron = require('electron');
 const BrowserWindow = electron.BrowserWindow;
+const ipc = electron.ipcMain;
 const fs = require('fs');
 const path = require('path');
 
@@ -28,6 +29,7 @@ let windowConfig = {
     autoHideMenuBar: true,
     resizable: false,
     webPreferences: {
+        preload: path.join(__dirname, 'preload.js'),
         sandbox: false,
         nodeIntegration: false
     }
@@ -71,6 +73,10 @@ function openModalWindow(windowName) {
         destroyWindow();
     });
 }
+
+ipc.on('closeModal', function() {
+    modalWindow.close();
+});
 
 /**
  * Destroys a window

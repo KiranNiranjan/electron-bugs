@@ -17,9 +17,11 @@ const { ipcRenderer, remote } = require('electron');
 
 window.testAPI =  {
 
-    openModal: function () {
-        let windowName = remote.getCurrentWindow().winName;
-        console.log(windowName);
-        ipcRenderer.send('openModal', windowName)
+    showWindowInactive: function () {
+        ipcRenderer.send('show-inactive');
+    },
+
+    showInactiveWorkAround: function () {
+        ipcRenderer.send('show-inactive-work-around');
     }
 };

@@ -18,7 +18,6 @@
 const electron = require('electron');
 const {app, BrowserWindow} = require('electron');
 const path = require('path');
-const modal = require('./modal');
 
 let mainWindow;
 
@@ -37,7 +36,6 @@ const createWindow = () => {
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
-    mainWindow.webContents.openDevTools();
     mainWindow.winName = 'main';
 
     mainWindow.on('closed', () => {
@@ -49,7 +47,6 @@ const createWindow = () => {
 
         webContents.once('did-finish-load', function () {
             console.log('New window opened');
-            webContents.openDevTools();
         });
     });
 };
@@ -60,6 +57,26 @@ app.on('window-all-closed', () => {
     app.quit();
 });
 
-electron.ipcMain.on('openModal', (event, windowName) => {
-    modal.openModalWindow(windowName);
+electron.ipcMain.on('show-inactive', () => {
+    if (mainWindow) {
+        mainWindow.minimize();
+
+        setTimeout(() => {
+            mainWindow.showInactive();
+        }, 5000)
+    }
+});
+
+electron.ipcMain.on('show-inactive-work-around', () => {
+    if (mainWindow) {
+        mainWindow.minimize();
+
+        setTimeout(() => {
+            mainWindow.showInactive();
+            if (!mainWindow.isAlwaysOnTop()) {
+                mainWindow.setAlwaysOnTop(true);
+                mainWindow.setAlwaysOnTop(false);
+            }
+        }, 5000)
+    }
 });

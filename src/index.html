@@ -20,16 +20,26 @@
     <title>Title</title>
 </head>
 <body>
+<h2>Windows ShowInactive Bug</h2>
 
-<p>Open modal Window:</p>
-<button id='open-win'>modal</button>
+<p>Bring window to front without focus</p>
+<button id='show-inactive'>Show Inactive</button>
+
+<br>
+<p>Bring window to front without focus (Work Around)</p>
+<button id='show-inactive-works'>Show Inactive Work Around</button>
 
 </body>
 <script>
-    const button = document.getElementById('open-win');
+    const showInactive = document.getElementById('show-inactive');
+    const showInactiveWorks = document.getElementById('show-inactive-works');
 
-    button.addEventListener('click', () => {
-        window.testAPI.openModal();
-    })
+    showInactive.addEventListener('click', () => {
+        window.testAPI.showWindowInactive();
+    });
+
+    showInactiveWorks.addEventListener('click', () => {
+        window.testAPI.showInactiveWorkAround();
+    });
 </script>
 </html>

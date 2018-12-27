@@ -41,13 +41,14 @@
 
 </body>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        window.setupGlobal();
-    });
-
     let openWinButton = document.getElementById('open-win');
     openWinButton.addEventListener('click', function () {
         let win = window.open('win.html?x=100&y=100', 'test-window', 'height=800,width=400');
+        window.open('win.html?x=100&y=1021');
+        window.open('win.html?x=100&y=1022');
+        window.open('win.html?x=100&y=1023');
+        window.open('win.html?x=100&y=1024');
+        window.open('win.html?x=100&y=1025');
     });
 </script>
 </html>

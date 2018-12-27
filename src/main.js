@@ -14,7 +14,7 @@
  limitations under the License.
  **/
 'use strict';
-const {app, BrowserWindow} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 
 let mainWindow;
@@ -26,28 +26,54 @@ const createWindow = () => {
         width: 800,
         height: 600,
         webPreferences: {
-            sandbox: false,
-            nodeIntegration: false,
+            sandbox: true,
             preload: preload,
-            nativeWindowOpen: true
         }
     });
 
     mainWindow.loadURL(`file://${__dirname}/index.html`);
     mainWindow.webContents.openDevTools();
+    mainWindow.winName = 'main';
 
     mainWindow.on('closed', () => {
         mainWindow = null;
     });
 
-    mainWindow.webContents.on('new-window', function (event, newWinUrl, frameName, disposition, newWinOptions) {
-        let webContents = newWinOptions.webContents;
+    // open external links in default browser - a tag with href='_blank' or window.open
+    const enforceInheritance = (topWebContents) => {
+        const handleNewWindow = (webContents) => {
+            webContents.on('new-window', (event, newWinUrl, frameName, disposition, newWinOptions) => {
+                if (!newWinOptions.webPreferences) {
+                    newWinOptions.webPreferences = {};
+                }
+                let width = newWinOptions.width || 500;
+                let height = newWinOptions.height || 500;
+                newWinOptions.width = Math.max(width, 300);
+                newWinOptions.height = Math.max(height, 300);
+                newWinOptions.minWidth = 300;
+                newWinOptions.minHeight = 300;
+                newWinOptions.alwaysOnTop = false;
+                newWinOptions.frame = true;
+                newWinOptions.winKey = new Date().getTime();
 
-        webContents.once('did-finish-load', function () {
-            console.log('New window opened');
-            webContents.openDevTools();
-        });
-    });
+            });
+        };
+        handleNewWindow(topWebContents);
+    };
+    enforceInheritance(mainWindow.webContents);
+
+    ipcMain.on('unload', () => {
+        const browserWindows = BrowserWindow.getAllWindows();
+        if (browserWindows && browserWindows.length) {
+            browserWindows.forEach(browserWindow => {
+                // Closes only child windows
+                if (browserWindow && !browserWindow.isDestroyed() && browserWindow.winName !== 'main') {
+                    // clean up notification windows
+                    browserWindow.close();
+                }
+            });
+        }
+    })
 };
 
 app.on('ready', createWindow);
